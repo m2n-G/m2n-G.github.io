@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Learning History - Khloe Kim</title>
+<meta name="description" content="Learning history and working logs for Khloe Kim's data analytics and pipeline portfolio." />
+<link rel="icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" href="/logo192.png" />
+<link rel="manifest" href="/manifest.json" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#fff;--bg-soft:#f6f6f6;--ink:#111844;--ink-soft:#4b5694;--ink-mute:#7288ae;--line:#ded3bf;--accent:#4b5694;--warm:#eae0cf;--card:#fff;--radius:14px;--radius-lg:22px;--shadow:0 4px 16px rgba(17,24,68,.08),0 2px 6px rgba(17,24,68,.04)}
+  body{font-family:'Inter',sans-serif;background:var(--bg-soft);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;letter-spacing:-.02em;line-height:1.12;color:var(--ink)}
+  .container{max-width:1120px;margin:0 auto;padding:0 24px}
+  nav.topbar{position:sticky;top:0;z-index:100;background:rgba(246,246,246,.86);backdrop-filter:blur(18px);border-bottom:1px solid rgba(17,24,68,.08)}
+  .nav-inner{max-width:1200px;margin:0 auto;padding:18px 24px;display:flex;justify-content:space-between;align-items:center}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:1.35rem;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
+  .brand-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 16px rgba(75,86,148,.45)}
+  .nav-links{display:flex;align-items:center;gap:32px;list-style:none}
+  .nav-links a{font-size:.92rem;font-weight:500;color:var(--ink-soft);text-decoration:none}
+  .nav-links a:hover,.nav-links a.active{color:var(--ink)}
+  .nav-cta{padding:9px 18px;border-radius:999px;background:var(--ink);color:#fff!important}
+  main{padding:96px 0 110px}
+  .page-head{text-align:center;max-width:760px;margin:0 auto 48px}
+  .page-head h1{font-size:clamp(2.6rem,5vw,4rem);margin-bottom:16px}
+  .page-head p{color:var(--ink-soft);font-size:1.05rem}
+  .tag-cloud{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:56px}
+  .tag{padding:9px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink-soft);font:500 .84rem 'JetBrains Mono',monospace}
+  .tag strong{color:var(--ink)}
+  .content-grid{display:grid;grid-template-columns:280px 1fr;gap:28px;align-items:start}
+  .panel,.log-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow)}
+  .panel{padding:24px;position:sticky;top:100px}
+  .panel h2{font-size:1.35rem;margin-bottom:14px}
+  .panel a{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px solid var(--line);color:var(--ink-soft);text-decoration:none;font-weight:500}
+  .panel a:last-child{border-bottom:0}
+  .panel span{font-family:'JetBrains Mono',monospace;color:var(--ink-mute);font-size:.8rem}
+  .logs{display:grid;gap:18px}
+  .log-card{padding:26px}
+  .log-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:13px}
+  .log-meta span{padding:5px 8px;border-radius:6px;background:var(--warm);font:500 .72rem 'JetBrains Mono',monospace;color:var(--ink)}
+  .log-card h2{font-size:1.45rem;margin-bottom:10px}
+  .log-card p{color:var(--ink-soft);font-size:.95rem}
+  footer{background:var(--ink);color:#fff;padding:34px 24px;text-align:center;font:400 .8rem 'JetBrains Mono',monospace}
+  footer a{color:rgba(255,255,255,.75);text-decoration:none;margin:0 10px}
+  footer a:hover{color:#fff}
+  @media (max-width: 820px){.nav-inner{align-items:flex-start;gap:16px;flex-direction:column}.nav-links{gap:16px;flex-wrap:wrap}.content-grid{grid-template-columns:1fr}.panel{position:static}main{padding-top:70px}}
+</style>
+</head>
+<body>
+<nav class="topbar">
+  <div class="nav-inner">
+    <a href="../index.html#home" class="brand"><span class="brand-dot"></span>Khloe Kim</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#home">Home</a></li>
+      <li><a href="../khloe_Kim_cv.pdf" target="_blank" rel="noopener">Resume</a></li>
+      <li><a href="../project/project.html">Project</a></li>
+      <li><a href="learning-history.html" class="active">Learning History</a></li>
+      <li><a href="../index.html#home" class="nav-cta">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+<main>
+  <div class="container">
+    <header class="page-head">
+      <h1>Learning History</h1>
+      <p>A compact index of the systems, methods, and domains behind the portfolio.</p>
+    </header>
+    <div class="tag-cloud">
+      <span class="tag"><strong>#pipeline</strong> 3</span>
+      <span class="tag"><strong>#analytics</strong> 4</span>
+      <span class="tag"><strong>#machine-learning</strong> 2</span>
+      <span class="tag"><strong>#computer-vision</strong> 1</span>
+      <span class="tag"><strong>#finance</strong> 2</span>
+      <span class="tag"><strong>#iot</strong> 1</span>
+      <span class="tag"><strong>#aws</strong> 2</span>
+    </div>
+    <div class="content-grid">
+      <aside class="panel">
+        <h2>Topics</h2>
+        <a href="#pipeline">Pipeline <span>03</span></a>
+        <a href="#analytics">Analytics <span>04</span></a>
+        <a href="#ml">ML/NLP <span>02</span></a>
+        <a href="#vision">Vision <span>01</span></a>
+        <a href="#finance">Finance <span>02</span></a>
+      </aside>
+      <section class="logs">
+        <article class="log-card" id="pipeline">
+          <div class="log-meta"><span>#pipeline</span><span>#kafka</span><span>#airflow</span></div>
+          <h2>Streaming data from edge devices into decisions</h2>
+          <p>Notes from the smart-toy IoT pipeline: sensor ingestion, stream durability, scheduled orchestration, and dashboard delivery.</p>
+        </article>
+        <article class="log-card" id="analytics">
+          <div class="log-meta"><span>#analytics</span><span>#sql</span><span>#operations</span></div>
+          <h2>Turning operational friction into dashboard signals</h2>
+          <p>How front-line observations become schema changes, metrics, and weekly capacity views for leadership decisions.</p>
+        </article>
+        <article class="log-card" id="ml">
+          <div class="log-meta"><span>#machine-learning</span><span>#nlp</span><span>#kobert</span></div>
+          <h2>Korean financial news sentiment workflow</h2>
+          <p>A practical record of dataset balancing, labeling problems, model iteration, and evaluation for Korean market sentiment.</p>
+        </article>
+        <article class="log-card" id="vision">
+          <div class="log-meta"><span>#computer-vision</span><span>#ocr</span><span>#automation</span></div>
+          <h2>OCR automation for bookkeeping documents</h2>
+          <p>Document cleaning, text extraction, field normalization, and JSON output for reducing repetitive ledger entry work.</p>
+        </article>
+        <article class="log-card" id="finance">
+          <div class="log-meta"><span>#finance</span><span>#dbt</span><span>#etl</span></div>
+          <h2>KRX daily ETL and analytical mart design</h2>
+          <p>Incremental market-data ingestion patterns, transformation checks, and restartable workflows for finance analytics.</p>
+        </article>
+      </section>
+    </div>
+  </div>
+</main>
+<footer>
+  <a href="../index.html#home">Home</a>
+  <a href="../project/project.html">Project</a>
+  <a href="learning-history.html">Learning History</a>
+</footer>
+</body>
+</html>

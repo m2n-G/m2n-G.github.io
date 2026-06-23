@@ -1,6 +1,8 @@
 {
   "files": {
     "index.html": "/index.html",
+    "project.html": "/project/project.html",
+    "learning-history.html": "/LearningHistory/learning-history.html",
     "khloe_Kim_cv.pdf": "/khloe_Kim_cv.pdf",
     "manifest.json": "/manifest.json",
     "favicon.ico": "/favicon.ico",
