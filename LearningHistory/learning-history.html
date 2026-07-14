@@ -30,10 +30,7 @@
   .page-head{text-align:center;max-width:760px;margin:0 auto 48px}
   .page-head h1{font-size:clamp(2.6rem,5vw,4rem);margin-bottom:16px}
   .page-head p{color:var(--ink-soft);font-size:1.05rem}
-  .tag-cloud{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:56px}
-  .tag{padding:9px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink-soft);font:500 .84rem 'JetBrains Mono',monospace}
-  .tag strong{color:var(--ink)}
-  .content-grid{display:grid;grid-template-columns:280px 1fr;gap:28px;align-items:start}
+  .content-grid{display:grid;grid-template-columns:280px 1fr;gap:28px;align-items:start;margin-top:56px}
   .panel,.log-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow)}
   .panel{padding:24px;position:sticky;top:100px}
   .panel h2{font-size:1.35rem;margin-bottom:14px}
@@ -46,6 +43,9 @@
   .log-meta span{padding:5px 8px;border-radius:6px;background:var(--warm);font:500 .72rem 'JetBrains Mono',monospace;color:var(--ink)}
   .log-card h2{font-size:1.45rem;margin-bottom:10px}
   .log-card p{color:var(--ink-soft);font-size:.95rem}
+  a.log-card{display:block;text-decoration:none;transition:transform .25s cubic-bezier(.4,0,.2,1),box-shadow .25s cubic-bezier(.4,0,.2,1)}
+  a.log-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg,0 20px 50px rgba(17,24,68,.12))}
+  .card-read{display:inline-block;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--accent)}
   footer{background:var(--ink);color:#fff;padding:34px 24px;text-align:center;font:400 .8rem 'JetBrains Mono',monospace}
   footer a{color:rgba(255,255,255,.75);text-decoration:none;margin:0 10px}
   footer a:hover{color:#fff}
@@ -58,7 +58,7 @@
     <a href="../index.html#home" class="brand"><span class="brand-dot"></span>Khloe Kim</a>
     <ul class="nav-links">
       <li><a href="../index.html#home">Home</a></li>
-      <li><a href="../khloe_Kim_cv.pdf" target="_blank" rel="noopener">Resume</a></li>
+      <li><a href="../khloe_Kim_cv_v2.pdf" target="_blank" rel="noopener">Resume</a></li>
       <li><a href="../project/project.html">Project</a></li>
       <li><a href="learning-history.html" class="active">Learning History</a></li>
       <li><a href="../index.html#home" class="nav-cta">Contact</a></li>
@@ -71,26 +71,26 @@
       <h1>Learning History</h1>
       <p>A compact index of the systems, methods, and domains behind the portfolio.</p>
     </header>
-    <div class="tag-cloud">
-      <span class="tag"><strong>#pipeline</strong> 3</span>
-      <span class="tag"><strong>#analytics</strong> 4</span>
-      <span class="tag"><strong>#machine-learning</strong> 2</span>
-      <span class="tag"><strong>#computer-vision</strong> 1</span>
-      <span class="tag"><strong>#finance</strong> 2</span>
-      <span class="tag"><strong>#iot</strong> 1</span>
-      <span class="tag"><strong>#aws</strong> 2</span>
-    </div>
     <div class="content-grid">
       <aside class="panel">
         <h2>Topics</h2>
-        <a href="#pipeline">Pipeline <span>03</span></a>
-        <a href="#analytics">Analytics <span>04</span></a>
-        <a href="#ml">ML/NLP <span>02</span></a>
-        <a href="#vision">Vision <span>01</span></a>
-        <a href="#finance">Finance <span>02</span></a>
+        <!-- Topic links are generated automatically from each log card. -->
+        <div id="topic-list"></div>
       </aside>
       <section class="logs">
-        <article class="log-card" id="pipeline">
+        <a class="log-card" id="chicky-dl" href="emotion-model-selection.html">
+          <div class="log-meta"><span>#chicky</span><span>#nlp</span><span>#klue-roberta</span><span>#focal-loss</span></div>
+          <h2>Choosing a Korean emotion model</h2>
+          <p>The deep learning part of Chicky: catching data leakage, rebuilding a group-aware split, comparing KLUE-RoBERTa, KoBERT, and KcELECTRA, and tuning focal loss to 93.54% macro-F1.</p>
+          <span class="card-read">Read the log -&gt;</span>
+        </a>
+        <a class="log-card" id="chicky-hw" href="raspberry-pi-embedded.html">
+          <div class="log-meta"><span>#chicky</span><span>#raspberry-pi</span><span>#iot</span><span>#websocket</span></div>
+          <h2>Embedded communication on Raspberry Pi</h2>
+          <p>The hardware part of Chicky: voice and video over WiFi, dual-mode local socket and remote polling to survive NAT and firewalls, and mDNS device discovery.</p>
+          <span class="card-read">Read the log -&gt;</span>
+        </a>
+        <!-- <article class="log-card" id="pipeline">
           <div class="log-meta"><span>#pipeline</span><span>#kafka</span><span>#airflow</span></div>
           <h2>Streaming data from edge devices into decisions</h2>
           <p>Notes from the smart-toy IoT pipeline: sensor ingestion, stream durability, scheduled orchestration, and dashboard delivery.</p>
@@ -114,7 +114,7 @@
           <div class="log-meta"><span>#finance</span><span>#dbt</span><span>#etl</span></div>
           <h2>KRX daily ETL and analytical mart design</h2>
           <p>Incremental market-data ingestion patterns, transformation checks, and restartable workflows for finance analytics.</p>
-        </article>
+        </article> -->
       </section>
     </div>
   </div>
@@ -124,5 +124,31 @@
   <a href="../project/project.html">Project</a>
   <a href="learning-history.html">Learning History</a>
 </footer>
+<script>
+  // Topics automation: build the sidebar from each log card's id, title, and primary tag.
+  (function () {
+    var list = document.getElementById('topic-list');
+    if (!list) return;
+    var cards = document.querySelectorAll('.log-card');
+
+    cards.forEach(function (card) {
+      if (!card.id) return;
+      var titleEl = card.querySelector('h2');
+      var title = titleEl ? titleEl.textContent.trim() : card.id;
+      var firstTag = card.querySelector('.log-meta span');
+      var tag = firstTag ? firstTag.textContent.trim().replace(/^#/, '') : '';
+
+      var link = document.createElement('a');
+      link.href = '#' + card.id;
+      link.appendChild(document.createTextNode(title));
+      if (tag) {
+        var badge = document.createElement('span');
+        badge.textContent = tag;
+        link.appendChild(badge);
+      }
+      list.appendChild(link);
+    });
+  })();
+</script>
 </body>
 </html>

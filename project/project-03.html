@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Chicky Emotion-Aware AI Doll | Khloe Minji Kim</title>
+<script src="../tab-title.js"></script>
+<meta name="description" content="Capstone case study for Chicky, an emotion-aware AI companion doll: a single project spanning Raspberry Pi embedded hardware and a Korean-NLP deep learning emotion classifier." />
+<link rel="icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" href="/logo192.png" />
+<link rel="manifest" href="/manifest.json" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="project-detail.css" />
+</head>
+<body>
+<nav class="topbar">
+  <div class="nav-inner">
+    <a href="../index.html#home" class="brand"><span class="brand-dot"></span>Khloe Kim</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#home">Home</a></li>
+      <li><a href="../khloe_Kim_cv_v2.pdf" target="_blank" rel="noopener">Resume</a></li>
+      <li><a href="project.html" class="active">Project</a></li>
+      <li><a href="../LearningHistory/learning-history.html">Learning History</a></li>
+    </ul>
+  </div>
+</nav>
+<main>
+  <section class="project-hero">
+    <div class="container">
+      <p class="eyebrow">Project 03</p>
+      <h1>Chicky, Emotion-Aware AI Doll</h1>
+      <p class="lead">A single capstone project in which I owned two very different technical parts end to end: the Raspberry Pi embedded hardware that lets the doll see, hear, and speak, and the Korean-NLP deep learning model that reads a child's emotions from dialogue. This page keeps them under one story because they were built to work as one device.</p>
+      <div class="project-meta">
+        <div class="meta-item"><span>Role</span><strong>Hardware &amp; Deep Learning</strong></div>
+        <div class="meta-item"><span>Team</span><strong>4 people, capstone</strong></div>
+        <div class="meta-item"><span>Stack</span><strong>Raspberry Pi, KLUE-RoBERTa, Flask</strong></div>
+        <div class="meta-item"><span>Outcome</span><strong>93.54% macro-F1</strong></div>
+      </div>
+    </div>
+  </section>
+  <div class="container content-grid">
+    <article>
+      <section class="detail-section" id="overview">
+        <h2>Overview</h2>
+        <p>Chicky is an AI companion doll for children of dual-income families. It talks with the child, streams live video to a parent's app, and analyzes the child's emotions from the conversation to return a parenting report and an emotion-matched bedtime audiobook. It was a four-person capstone project; the application and the communication server were owned by teammates.</p>
+        <p>My scope was the two parts furthest apart on the stack: the <strong>hardware</strong> running inside the doll on a Raspberry Pi, and the <strong>deep learning</strong> emotion classifier served to the backend. The sections below are split accordingly, but the architecture diagram shows why they belong to one system.</p>
+      </section>
+
+      <section class="detail-section" id="architecture">
+        <h2>Integrated Architecture</h2>
+        <p>Both of my parts plug into the same flow: the doll captures speech and video, the backend brokers data, and the emotion service turns dialogue into a report. Everything the doll does runs over WiFi, so it works as a standalone device a child can carry.</p>
+        <div class="arch-block">[Parent App]  React Native / Expo
+    |  REST (JSON)
+    v
+[Back]  Spring Boot 3.1 (Java 17) ---- MySQL
+    |
+    +-- TCP (audio) ==(WiFi)==> [HW] Raspberry Pi        &lt;-- my part
+    |                            Picamera2 -> MJPEG stream
+    |                            Azure STT, OpenAI GPT-3.5
+    |
+    +-- HTTP /predict, /report --> [DL] Flask serving    &lt;-- my part
+                                    KLUE-RoBERTa (7 emotions)
+                                    -> dominant emotion -> book_theme</div>
+      </section>
+
+      <section class="detail-section" id="hardware">
+        <p class="part-label">Part 1 · Hardware</p>
+        <h2>Raspberry Pi Embedded Device</h2>
+        <p>The doll runs on a Raspberry Pi with a camera module, USB microphone, and speaker. I built the on-device software that handles the child's voice, live video, and the doll's spoken replies, all over WiFi with no wired connection.</p>
+        <p>Speech capture uses Azure Speech-to-Text, replies are generated with the OpenAI GPT-3.5 Turbo API, and a wake-word ("chi") starts each conversation. Live monitoring streams the camera over MJPEG HTTP, toggled by the parent app through a WebSocket command channel.</p>
+        <p>The part I am most proud of is the <strong>dual communication mode</strong>. In local-socket mode the doll opens TCP and WebSocket servers that the app and backend reach directly on the same network, with mDNS advertising so the app discovers the doll without a hard-coded IP. In remote-polling mode the doll instead polls the backend API on a schedule, so it keeps working behind NAT and firewalls where inbound connections are blocked.</p>
+        <div class="stack-chips">
+          <span class="chip">Raspberry Pi</span>
+          <span class="chip">Picamera2</span>
+          <span class="chip">MJPEG / HTTP</span>
+          <span class="chip">WebSocket</span>
+          <span class="chip">TCP sockets</span>
+          <span class="chip">mDNS / Zeroconf</span>
+          <span class="chip">Azure STT</span>
+          <span class="chip">OpenAI GPT-3.5</span>
+        </div>
+      </section>
+
+      <section class="detail-section" id="deep-learning">
+        <p class="part-label">Part 2 · Deep Learning</p>
+        <h2>Korean Emotion Classifier</h2>
+        <p>The emotion model reads the child's dialogue and classifies each sentence into one of seven emotions: fear, surprise, angry, sadness, neutral, happiness, and disgust. Sentence-level predictions are aggregated into a dominant emotion and a distribution, which drive the parenting report and a bedtime book theme.</p>
+        <p>I benchmarked three Korean language models under identical settings and chose KLUE-RoBERTa. The most important finding was a data-quality problem, not a modeling trick: the naive split leaked duplicate utterances across train and test, inflating scores. I rebuilt the split to be group-aware so no utterance appears on both sides, then re-ran every comparison on that leak-free split. Focal loss with class weighting handled the imbalance, and the final model reached a macro-F1 of 0.9354.</p>
+        <div class="metric-grid">
+          <div class="metric-card"><strong>0.9354</strong><span>Final macro-F1</span></div>
+          <div class="metric-card"><strong>7</strong><span>Emotion classes</span></div>
+          <div class="metric-card"><strong>0</strong><span>Leaked utterances</span></div>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Model (leak-free split)</th><th>Accuracy</th><th>Macro-F1</th></tr></thead>
+          <tbody>
+            <tr><td><strong>KLUE-RoBERTa</strong></td><td>0.9351</td><td><strong>0.9354</strong></td></tr>
+            <tr><td>KoBERT</td><td>0.9222</td><td>0.9231</td></tr>
+            <tr><td>KcELECTRA</td><td>0.9197</td><td>0.9195</td></tr>
+          </tbody>
+        </table>
+        <p>The classifier is served behind a Flask service exposing <code>/predict</code> for the backend contract and <code>/report</code> for the app-facing report with dominant emotion and book theme.</p>
+        <div class="stack-chips">
+          <span class="chip">KLUE-RoBERTa</span>
+          <span class="chip">HuggingFace Transformers</span>
+          <span class="chip">Focal Loss</span>
+          <span class="chip">Class weighting</span>
+          <span class="chip">PyTorch</span>
+          <span class="chip">Flask</span>
+        </div>
+      </section>
+
+      <section class="detail-section" id="results">
+        <h2>Results</h2>
+        <ul>
+          <li>Delivered a working doll that streams live video and holds spoken conversations entirely over WiFi, in both local-socket and remote-polling modes.</li>
+          <li>Caught and removed duplicate-utterance leakage in the emotion dataset, then re-validated all model comparisons on a group-aware split.</li>
+          <li>Selected KLUE-RoBERTa as the final leak-free classifier at 93.54% macro-F1 across seven emotion classes.</li>
+          <li>Connected both parts to the shared backend through documented API contracts, so hardware and model integrate as one device.</li>
+        </ul>
+      </section>
+
+      <section class="detail-section" id="learning">
+        <h2>Deep Dives in Learning History</h2>
+        <p>The step-by-step study notes and troubleshooting for each technology live in Learning History, so this case study stays focused on the product.</p>
+        <div class="learn-links">
+          <a class="learn-link" href="../LearningHistory/emotion-model-selection.html">
+            <span><strong>Choosing a Korean emotion model</strong><p>Data leakage, group-aware splits, focal loss, and the KLUE-RoBERTa vs KoBERT vs KcELECTRA comparison.</p></span>
+            <span class="arrow">Read -&gt;</span>
+          </a>
+          <a class="learn-link" href="../LearningHistory/raspberry-pi-embedded.html">
+            <span><strong>Embedded communication on Raspberry Pi</strong><p>Dual-mode local socket and remote polling, mDNS discovery, and Picamera2 MJPEG streaming.</p></span>
+            <span class="arrow">Read -&gt;</span>
+          </a>
+        </div>
+      </section>
+    </article>
+    <aside class="side-panel">
+      <h2>Sections</h2>
+      <a href="#overview">Overview</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#hardware">Part 1 · Hardware</a>
+      <a href="#deep-learning">Part 2 · Deep Learning</a>
+      <a href="#results">Results</a>
+      <a href="#learning">Learning History</a>
+      <a href="project.html">All Projects</a>
+    </aside>
+  </div>
+</main>
+<footer>
+  <a href="../index.html#home">Home</a>
+  <a href="project.html">Project</a>
+  <a href="../LearningHistory/learning-history.html">Learning History</a>
+</footer>
+</body>
+</html>
