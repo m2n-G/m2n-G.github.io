@@ -13,6 +13,27 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
+  @import url('https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css');
+
+  @font-face {
+    font-family:'Aggravo';
+    src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroL.woff') format('woff');
+    font-weight:300;
+    font-display:swap;
+  }
+  @font-face {
+    font-family:'Aggravo';
+    src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroM.woff') format('woff');
+    font-weight:500;
+    font-display:swap;
+  }
+  @font-face {
+    font-family:'Aggravo';
+    src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
+    font-weight:700;
+    font-display:swap;
+  }
+
   /* ========== Reset & Base ========== */
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth;overflow-x:hidden}
@@ -71,6 +92,40 @@
   .mono{font-family:'JetBrains Mono',monospace;letter-spacing:-0.01em}
   .serif{font-family:'Fraunces',Georgia,serif}
 
+  /* Korean typography: Wanted Sans for reading, Aggravo for emphasis */
+  html[lang="ko"] body,
+  html[lang="ko"] body *{
+    font-family:'Wanted Sans Variable','Wanted Sans','Pretendard',-apple-system,sans-serif;
+  }
+  html[lang="ko"] h2,
+  html[lang="ko"] h3,
+  html[lang="ko"] h4,
+  html[lang="ko"] h5,
+  html[lang="ko"] h6,
+  html[lang="ko"] h2 *,
+  html[lang="ko"] h3 *,
+  html[lang="ko"] h4 *,
+  html[lang="ko"] h5 *,
+  html[lang="ko"] h6 *{
+    font-family:'Aggravo','Wanted Sans Variable','Wanted Sans',sans-serif;
+  }
+  html[lang="ko"] h2,
+  html[lang="ko"] h3,
+  html[lang="ko"] h4,
+  html[lang="ko"] h5,
+  html[lang="ko"] h6{font-weight:500}
+  html[lang="ko"] b,
+  html[lang="ko"] strong,
+  html[lang="ko"] .impact{
+    font-family:'Aggravo','Wanted Sans Variable','Wanted Sans',sans-serif;
+    font-weight:700;
+  }
+  html[lang="ko"] .brand,
+  html[lang="ko"] .profile-name{
+    font-family:'Aggravo','Wanted Sans Variable','Wanted Sans',sans-serif;
+    font-weight:500;
+  }
+
   .text-gradient{
     color:var(--accent);
   }
@@ -128,6 +183,37 @@
   }
   .nav-cta:hover{background:var(--accent);transform:translateY(-1px)}
   .nav-cta::after{display:none !important}
+  .nav-actions{display:flex;align-items:center;gap:12px}
+  .language-switch{
+    display:inline-flex;align-items:center;
+    padding:0;border:0;border-radius:999px;
+    background:transparent;cursor:pointer;
+    box-shadow:var(--shadow-sm);
+    transition:box-shadow .25s ease,transform .25s ease;
+  }
+  .language-switch:hover{box-shadow:var(--shadow);transform:translateY(-1px)}
+  .language-switch:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .language-track{
+    position:relative;display:block;width:66px;height:34px;border-radius:999px;
+    background:var(--ink);overflow:hidden;
+  }
+  .language-option{
+    position:absolute;top:50%;z-index:1;transform:translateY(-50%);
+    width:30px;text-align:center;color:#fff;
+    font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:600;
+    letter-spacing:.03em;transition:opacity .2s ease;
+  }
+  .language-option-kr{left:2px;opacity:0}
+  .language-option-en{right:2px;opacity:1}
+  .language-switch.is-korean .language-option-kr{opacity:1}
+  .language-switch.is-korean .language-option-en{opacity:0}
+  .language-thumb{
+    position:absolute;top:3px;left:3px;z-index:2;
+    width:28px;height:28px;border-radius:50%;background:#fff;
+    box-shadow:0 1px 3px rgba(17,24,68,.18);
+    transition:transform .25s cubic-bezier(.4,0,.2,1);
+  }
+  .language-switch.is-korean .language-thumb{transform:translateX(32px)}
   .nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:8px}
   .nav-toggle span{display:block;width:24px;height:2px;background:var(--ink);margin:5px 0;transition:.3s}
 
@@ -775,6 +861,7 @@
     .nav-links li{padding:12px 0;border-bottom:1px solid var(--line)}
     .nav-links li:last-child{border-bottom:none}
     .nav-toggle{display:block}
+    .nav-actions{gap:6px}
     .resume-body{padding:30px 28px}
     .log-item{grid-template-columns:1fr;gap:10px}
     .log-arrow{display:none}
@@ -789,6 +876,8 @@
     .hero-meta{gap:20px}
     .resume-body{padding:24px 20px}
     .resume-doc h1{font-size:1.6rem}
+    nav.topbar .nav-inner{padding-left:18px;padding-right:14px}
+    .language-switch{padding:0}
   }
 </style>
 </head>
@@ -808,9 +897,18 @@
       <li><a href="LearningHistory/learning-history.html">Learning History</a></li>
       <li><a href="#" class="nav-cta" data-copy-email="khloemjkim@gmail.com">Contact</a></li>
     </ul>
-    <button class="nav-toggle" id="navToggle" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+    <div class="nav-actions">
+      <button class="language-switch" id="languageSwitch" type="button" role="switch" aria-checked="false" aria-label="Switch to Korean">
+        <span class="language-track" aria-hidden="true">
+          <span class="language-option language-option-kr">KR</span>
+          <span class="language-option language-option-en">EN</span>
+          <span class="language-thumb"></span>
+        </span>
+      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </nav>
 
@@ -1245,6 +1343,151 @@
 <script>
   const contactEmail='khloemjkim@gmail.com';
 
+  // ============ Language Switch ============
+  const languageSwitch=document.getElementById('languageSwitch');
+  const languageContent=[
+    ['.brand','<span class="brand-dot"></span> Khloe Kim','<span class="brand-dot"></span> 김민지'],
+    ['.profile-name','Khloe Kim','김민지'],
+    ['.nav-links li:nth-child(1) a','Home','홈'],
+    ['.nav-links li:nth-child(2) a','Resume','이력서'],
+    ['.nav-links li:nth-child(3) a','Project','프로젝트'],
+    ['.nav-links li:nth-child(4) a','Learning History','학습 기록'],
+    ['.nav-links li:nth-child(5) a','Contact','연락하기'],
+    ['.profile-role','Data Engineer &amp; MLOps Engineer','데이터 엔지니어 · MLOps 엔지니어'],
+    ['.profile-org','SoonChunHyang University','순천향대학교'],
+    ['.bio-title','Biography','자기소개'],
+    ['.bio-text p:nth-child(1)','Khloe Kim is a <b>data engineer and MLOps engineer</b> completing a B.S. in Internet of Things at SoonChunHyang University. She is moving from manufacturing analytics into production ML systems, building the connective layer between messy operational data and reliable AI, from SQL analysis and reporting to Kafka ingestion, model retraining, and RAG-based agent workflows.','김민지는 순천향대학교에서 사물인터넷학 학사 과정을 마무리하고 있는 <b>데이터 엔지니어이자 MLOps 엔지니어</b>입니다. 제조 데이터 분석에서 프로덕션 ML 시스템으로 영역을 확장하며, SQL 분석과 리포팅부터 Kafka 수집, 모델 재학습, RAG 기반 에이전트 워크플로까지 복잡한 운영 데이터와 신뢰할 수 있는 AI를 연결하는 계층을 구축합니다.'],
+    ['.bio-text p:nth-child(2)','Her recent work includes a semiconductor defect-prediction platform built on an 11,939-wafer SK hynix dataset, a legal consultation multi-agent system with labor-domain RAG reaching 93% in-scope accuracy, and Chicky, an emotion-aware AI companion doll. Before that, she owned production-loss and station-bottleneck reporting at HDI, a U.S. Samsung-device refurbishment operation, grounding her engineering work in real operating constraints.','최근에는 SK하이닉스의 웨이퍼 11,939장 데이터셋을 활용한 반도체 결함 예측 플랫폼, 노동법 특화 RAG로 범위 내 질문 정확도 93%를 달성한 법률 상담 멀티 에이전트 시스템, 감정 인식 AI 반려 인형 Chicky를 개발했습니다. 이전에는 미국 삼성 기기 리퍼비시 운영사 HDI에서 생산 손실과 공정 병목 리포팅을 담당하며 실제 운영 제약에 기반한 엔지니어링 경험을 쌓았습니다.'],
+    ['.bio-resume','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"></path></svg> Download my <a href="khloe_Kim_cv_v2.pdf" target="_blank" rel="noopener">resume</a>.','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"></path></svg> <a href="khloe_Kim_cv_v2.pdf" target="_blank" rel="noopener">이력서</a>를 내려받아 확인하세요.'],
+    ['.bio-block:nth-child(1) h3','Interests','관심 분야'],
+    ['.bio-block:nth-child(1) li:nth-child(1)','MLOps &amp; prediction systems','MLOps 및 예측 시스템'],
+    ['.bio-block:nth-child(1) li:nth-child(2)','RAG agents &amp; applied NLP','RAG 에이전트 및 응용 NLP'],
+    ['.bio-block:nth-child(1) li:nth-child(3)','Operational analytics automation','운영 분석 자동화'],
+    ['.bio-block:nth-child(2) h3','Education','학력'],
+    ['.edu-item b','B.S. in Internet of Things, 2026','사물인터넷학 학사, 2026'],
+    ['.edu-item span','SoonChunHyang University · GPA 3.62/4.5','순천향대학교 · 학점 3.62/4.5'],
+    ['#skills .skills-title','Skills','기술 역량'],
+    ['#skills .skill-item:nth-child(1) h3','Python &amp; ML','Python 및 머신러닝'],
+    ['#skills .skill-item:nth-child(1) p','LightGBM, SHAP, PyTorch, HuggingFace Transformers, model evaluation','LightGBM, SHAP, PyTorch, HuggingFace Transformers, 모델 평가'],
+    ['#skills .skill-item:nth-child(2) h3','SQL &amp; Analytics','SQL 및 데이터 분석'],
+    ['#skills .skill-item:nth-child(2) p','Microsoft SQL Server, production-loss analysis, Excel reporting, Tableau','Microsoft SQL Server, 생산 손실 분석, Excel 리포팅, Tableau'],
+    ['#skills .skill-item:nth-child(3) h3','MLOps Pipeline','MLOps 파이프라인'],
+    ['#skills .skill-item:nth-child(3) p','Apache Kafka, Airflow, Docker, MLflow, sliding-window retraining, champion-challenger control','Apache Kafka, Airflow, Docker, MLflow, 슬라이딩 윈도 재학습, 챔피언-챌린저 제어'],
+    ['#skills .skill-item:nth-child(4) h3','NLP &amp; RAG','NLP 및 RAG'],
+    ['#skills .skill-item:nth-child(4) p','LangGraph routing, hybrid BM25 + embedding retrieval, verification harnesses','LangGraph 라우팅, BM25 + 임베딩 하이브리드 검색, 검증 프레임워크'],
+    ['#skills .skill-item:nth-child(5) h3','Systems &amp; Tools','시스템 및 도구'],
+    ['#experience .skills-title','Experience','경력'],
+    ['#experience .timeline-item:nth-child(1) .timeline-date','Jun 2026 - Aug 2026','2026년 6월 - 2026년 8월'],
+    ['#experience .timeline-item:nth-child(1) .timeline-title','MLOps Engineer, Prediction &amp; Retraining Pipeline','MLOps 엔지니어, 예측 및 재학습 파이프라인'],
+    ['#experience .timeline-item:nth-child(1) .timeline-org','Active Manufacturing AI Platform · SK Hynix / ASAC / T Academy','능동형 제조 AI 플랫폼 · SK하이닉스 / ASAC / T Academy'],
+    ['#experience .timeline-item:nth-child(1) li:nth-child(1)','Owns Pipeline A for <b>real-time Etch defect prediction</b>, covering Kafka FDC ingestion, Step-Window features, LightGBM ensemble modeling, and SHAP Top-3 attribution.','<b>실시간 식각 공정 결함 예측</b>을 위한 파이프라인 A를 담당하며 Kafka FDC 수집, Step-Window 특성, LightGBM 앙상블 모델링, SHAP 상위 3개 기여 요인을 구현했습니다.'],
+    ['#experience .timeline-item:nth-child(1) li:nth-child(2)','Diagnosed inflated R2 as train/test leakage and redesigned evaluation around a <span class="impact">time-based regime holdout</span> now used as the team benchmark.','과도하게 높았던 R2의 원인을 학습/테스트 데이터 누수로 진단하고, 현재 팀 벤치마크로 사용하는 <span class="impact">시간 기반 구간 홀드아웃</span> 평가 체계를 재설계했습니다.'],
+    ['#experience .timeline-item:nth-child(1) li:nth-child(3)','Designs Model R2R residual-bias correction and continuous training with maintenance-cycle triggers, MLflow versioning, and gated model promotion.','유지보수 주기 트리거, MLflow 버전 관리, 단계별 모델 승격을 적용한 Model R2R 잔차 편향 보정 및 지속 학습 체계를 설계했습니다.'],
+    ['#experience .timeline-item:nth-child(2) .timeline-date','Jul 2024 - Jul 2025','2024년 7월 - 2025년 7월'],
+    ['#experience .timeline-item:nth-child(2) .timeline-title','Assistant Data Analyst','데이터 분석 어시스턴트'],
+    ['#experience .timeline-item:nth-child(2) .timeline-org','HDI, Samsung Refurbishment (Asurion) <span class="dot"></span> Richardson, TX','HDI, 삼성 리퍼비시(Asurion) <span class="dot"></span> 미국 텍사스주 리처드슨'],
+    ['#experience .timeline-item:nth-child(2) li:nth-child(1)','Owned recurring production-loss and station-bottleneck reporting across a <b>20+ station Samsung smartphone refurbishment line</b>, building SQL Server and Excel reports distributed enterprise-wide for parts pre-ordering decisions.','<b>20개 이상의 공정으로 구성된 삼성 스마트폰 리퍼비시 라인</b>의 생산 손실 및 공정 병목 정기 리포팅을 담당하고, 부품 사전 주문 의사결정을 위한 SQL Server 및 Excel 보고서를 구축해 전사에 배포했습니다.'],
+    ['#experience .timeline-item:nth-child(2) li:nth-child(2)','Led a root-cause analysis of OCTA display-assembly scrap that lifted the reclaim rate <span class="impact">1.59% → 23%</span>, past the 9.05% benchmark, by isolating the main defect drivers.','OCTA 디스플레이 조립 폐기 원인 분석을 주도해 주요 결함 요인을 분리했고, 재생률을 <span class="impact">1.59% → 23%</span>로 높여 9.05% 벤치마크를 넘어섰습니다.'],
+    ['#experience .timeline-item:nth-child(2) li:nth-child(3)','Built a daily SIM-card usage-and-defect tracking dataset and instrumented part-room order alerts with priority scoring, giving the floor real-time throughput and order-priority visibility.','일일 SIM 카드 사용량·불량 추적 데이터셋과 우선순위 점수를 적용한 부품실 주문 알림을 구축해 현장에 실시간 처리량과 주문 우선순위 가시성을 제공했습니다.'],
+    ['#experience .timeline-item:nth-child(3) .timeline-date','Jan 2023 - Jun 2024','2023년 1월 - 2024년 6월'],
+    ['#experience .timeline-item:nth-child(3) .timeline-title','Banking Assistant','은행 업무 어시스턴트'],
+    ['#experience .timeline-item:nth-child(3) .timeline-org','Shinhan Bank <span class="dot"></span> Asan, South Korea','신한은행 <span class="dot"></span> 대한민국 아산'],
+    ['#experience .timeline-item:nth-child(3) li:nth-child(1)','Supported complex teller operations for a high-volume international clientele, providing bilingual consultations in English and Korean.','외국인 고객이 많은 영업점에서 복합 창구 업무를 지원하고 영어와 한국어로 이중 언어 상담을 제공했습니다.'],
+    ['#experience .timeline-item:nth-child(3) li:nth-child(2)','Streamlined document preparation for international students and foreign workers navigating financial requirements.','유학생과 외국인 근로자의 금융 요건에 맞춘 서류 준비 절차를 간소화했습니다.'],
+    ['#experience .timeline-item:nth-child(3) li:nth-child(3)','Curated daily financial news summaries and market insights across university networks.','대학 네트워크에 배포할 일일 금융 뉴스 요약과 시장 인사이트를 선별·정리했습니다.'],
+    ['#experience .timeline-item:nth-child(4) .timeline-date','Jun 2022 - Dec 2022','2022년 6월 - 2022년 12월'],
+    ['#experience .timeline-item:nth-child(4) .timeline-title','Data Labeling Specialist','데이터 라벨링 담당자'],
+    ['#experience .timeline-item:nth-child(4) .timeline-org','Deep.I <span class="dot"></span> Asan, South Korea','Deep.I <span class="dot"></span> 대한민국 아산'],
+    ['#experience .timeline-item:nth-child(4) li:nth-child(1)','Annotated high-resolution satellite imagery datasets to support defense-grade AI recognition models.','국방 수준의 AI 인식 모델을 지원하기 위해 고해상도 위성 이미지 데이터셋을 라벨링했습니다.'],
+    ['#experience .timeline-item:nth-child(4) li:nth-child(2)','Performed systematic quality assurance reviews on large annotation batches, improving label consistency for model training.','대규모 라벨링 배치의 체계적인 품질 검수를 수행해 모델 학습용 라벨의 일관성을 개선했습니다.'],
+    ['#experience .timeline-item:nth-child(4) li:nth-child(3)','Developed early discipline in dataset quality, annotation standards, and human-in-the-loop AI workflows.','데이터셋 품질, 라벨링 표준, 휴먼 인 더 루프 AI 워크플로에 대한 기본 원칙을 익혔습니다.'],
+    ['#experience .timeline-item:nth-child(5) .timeline-date','Jan 2023 - Present','2023년 1월 - 현재'],
+    ['#experience .timeline-item:nth-child(5) .timeline-title','Volunteer Data Typist','데이터 입력 자원봉사자'],
+    ['#experience .timeline-item:nth-child(5) .timeline-org','Bucheon Braille Library <span class="dot"></span> Bucheon, South Korea','부천점자도서관 <span class="dot"></span> 대한민국 부천'],
+    ['#experience .timeline-item:nth-child(5) li:nth-child(1)','Transcribed printed literature into digital braille formats with <b>100% data accuracy</b> to support information accessibility for the visually impaired.','시각장애인의 정보 접근성을 위해 인쇄 문학 자료를 <b>100% 데이터 정확도</b>로 디지털 점자 형식으로 변환했습니다.'],
+    ['#experience .timeline-item:nth-child(5) li:nth-child(2)','Coordinated large-scale text conversion projects, maintaining consistent formatting and linguistic integrity across diverse academic and literary materials.','대규모 텍스트 변환 프로젝트를 조율하며 다양한 학술·문학 자료의 형식 일관성과 언어적 완결성을 유지했습니다.'],
+    ['#accomplishments .skills-title','Accomplishments','성과'],
+    ['#accomplishments .accomp-card:nth-child(1) h4','Bronze Award, SW Idea Contest','SW 아이디어 경진대회 동상'],
+    ['#accomplishments .accomp-card:nth-child(1) p','SoonChunHyang University · Nov 2023','순천향대학교 · 2023년 11월'],
+    ['#accomplishments .accomp-card:nth-child(2) h4','Data Engineering Bootcamp, Completed','데이터 엔지니어링 부트캠프 수료'],
+    ['#accomplishments .accomp-card:nth-child(2) p','ASAC × SK Planet T Academy · 2026','ASAC × SK Planet T Academy · 2026'],
+    ['#accomplishments .accomp-card:nth-child(3) h4','Director of Accounting','회계국장'],
+    ['#accomplishments .accomp-card:nth-child(3) p','University Student Council · 2021-2023','대학교 학생회 · 2021-2023'],
+    ['#accomplishments .accomp-card:nth-child(4) h4','Lead Mentor','리드 멘토'],
+    ['#accomplishments .accomp-card:nth-child(4) p','Freshman Mentoring Program · 50 students','신입생 멘토링 프로그램 · 50명'],
+    ['#projects .skills-title','Project','프로젝트'],
+    ['#projects .project-card:nth-child(1) .project-thumb-label','// Project 01','// 프로젝트 01'],
+    ['#projects .project-card:nth-child(1) .project-thumb text:nth-of-type(2)','Plan','계획'],
+    ['#projects .project-card:nth-child(1) .project-thumb text:nth-of-type(3)','Build','구축'],
+    ['#projects .project-card:nth-child(1) .project-thumb text:nth-of-type(4)','Result','결과'],
+    ['#projects .project-card:nth-child(1) h3','Active Manufacturing AI Platform <span class="ext">View</span>','능동형 제조 AI 플랫폼 <span class="ext">보기</span>'],
+    ['#projects .project-card:nth-child(1) .project-desc','Real-time Etch-process defect prediction with Kafka FDC ingestion, Step-Window feature engineering, LightGBM ensembles, SHAP attribution, and continuous retraining.','Kafka FDC 수집, Step-Window 특성 공학, LightGBM 앙상블, SHAP 기여도 분석, 지속 재학습을 결합한 실시간 식각 공정 결함 예측 플랫폼입니다.'],
+    ['#projects .project-card:nth-child(1) .project-links span','Detail','상세 보기'],
+    ['#projects .project-card:nth-child(2) .project-thumb-label','// Project 02','// 프로젝트 02'],
+    ['#projects .project-card:nth-child(2) .project-thumb text:nth-of-type(1)','project','프로젝트'],
+    ['#projects .project-card:nth-child(2) h3','Youth Life Legal Consultation AI <span class="ext">View</span>','청년 생활 법률 상담 AI <span class="ext">보기</span>'],
+    ['#projects .project-card:nth-child(2) .project-desc','RAG-based multi-agent system that routes labor, housing, consumer, and finance questions, with a labor-domain agent grounded in 166 Korean statute articles, reaching 93% in-scope accuracy across 121 live consultations.','노동·주거·소비자·금융 질문을 분류하는 RAG 기반 멀티 에이전트 시스템입니다. 국내 법령 166개 조항에 기반한 노동법 에이전트로 121건의 실제 상담에서 범위 내 정확도 93%를 달성했습니다.'],
+    ['#projects .project-card:nth-child(2) .project-links span','Detail','상세 보기'],
+    ['#projects .project-card:nth-child(3) .project-thumb-label','// Project 03','// 프로젝트 03'],
+    ['#projects .project-card:nth-child(3) h3','Chicky, Emotion-Aware AI Doll <span class="ext">View</span>','Chicky, 감정 인식 AI 인형 <span class="ext">보기</span>'],
+    ['#projects .project-card:nth-child(3) .project-desc','Capstone AI companion doll that classifies children\'s emotions from dialogue (KLUE-RoBERTa, 93.54% macro-F1) and recommends emotion-matched audiobooks through a Flask, Spring Boot, and Raspberry Pi architecture.','대화에서 아동의 감정을 분류하고(KLUE-RoBERTa, macro-F1 93.54%) 감정에 맞는 오디오북을 추천하는 캡스톤 AI 반려 인형입니다. Flask, Spring Boot, Raspberry Pi 아키텍처로 구현했습니다.'],
+    ['#projects .project-card:nth-child(3) .project-links span','Detail','상세 보기'],
+    ['#projects .project-card:nth-child(4) .project-thumb-label','// etc.','// 기타'],
+    ['#projects .project-card:nth-child(4) .project-thumb text','project index','프로젝트 목록'],
+    ['#projects .project-card:nth-child(4) h3','etc. <span class="ext">View</span>','기타 프로젝트 <span class="ext">보기</span>'],
+    ['#projects .project-card:nth-child(4) .project-desc','Open the full project page for additional analytics automation, leadership systems, and smaller technical notes beyond the three featured builds.','전체 프로젝트 페이지에서 세 가지 대표 프로젝트 외의 분석 자동화, 운영 시스템, 기술 노트를 확인할 수 있습니다.'],
+    ['#projects .project-card:nth-child(4) .project-stack span:nth-child(1)','All Projects','전체 프로젝트'],
+    ['#projects .project-card:nth-child(4) .project-stack span:nth-child(2)','Archive','아카이브'],
+    ['#projects .project-card:nth-child(4) .project-stack span:nth-child(3)','Notes','노트'],
+    ['#projects .project-card:nth-child(4) .project-links span','View all','모두 보기'],
+    ['.footer-brand h3','Pipelines that <em>quietly</em> deliver.','<em>조용히</em> 성과를 만드는 파이프라인.'],
+    ['.footer-brand p','A data systems engineer who turns operational friction into working ML and automation pipelines, from SQL and streaming to RAG agents and embedded AI.','SQL과 스트리밍부터 RAG 에이전트와 임베디드 AI까지, 운영의 마찰을 실제로 작동하는 ML 및 자동화 파이프라인으로 바꾸는 데이터 시스템 엔지니어입니다.'],
+    ['.footer-col:nth-child(2) h5','Navigate','바로가기'],
+    ['.footer-col:nth-child(2) a:nth-of-type(1)','Home','홈'],
+    ['.footer-col:nth-child(2) a:nth-of-type(2)','Resume','이력서'],
+    ['.footer-col:nth-child(2) a:nth-of-type(3)','Project','프로젝트'],
+    ['.footer-col:nth-child(2) a:nth-of-type(4)','Learning History','학습 기록'],
+    ['.footer-col:nth-child(3) h5','Connect','연락처'],
+    ['.footer-bottom > div:nth-child(1)','© 2026 Khloe Kim. Built with care in Seoul.','© 2026 김민지. 서울에서 정성껏 만들었습니다.'],
+    ['.footer-bottom > div:nth-child(2) span','v2.7 · last updated 2026.07','v2.7 · 2026.07 마지막 업데이트']
+  ];
+
+  const languageAttributes=[
+    ['.nav-toggle','aria-label','Menu','메뉴'],
+    ['.profile-socials a:nth-child(1)','aria-label','Copy email address','이메일 주소 복사'],
+    ['.profile-socials a:nth-child(1)','title','Copy email address','이메일 주소 복사'],
+    ['.profile-socials a:nth-child(2)','aria-label','Resume','이력서'],
+    ['.profile-socials a:nth-child(2)','title','Resume','이력서'],
+    ['#projects .project-card:nth-child(1)','aria-label','Open Active Manufacturing AI Platform detail page','능동형 제조 AI 플랫폼 상세 페이지 열기'],
+    ['#projects .project-card:nth-child(2)','aria-label','Open Youth Life Legal Consultation AI detail page','청년 생활 법률 상담 AI 상세 페이지 열기'],
+    ['#projects .project-card:nth-child(3)','aria-label','Open Chicky capstone detail page','Chicky 캡스톤 상세 페이지 열기'],
+    ['#projects .project-card:nth-child(4)','aria-label','Open all projects page','전체 프로젝트 페이지 열기']
+  ];
+
+  function applyLanguage(language){
+    const isKorean=language==='ko';
+    document.documentElement.lang=isKorean?'ko':'en';
+    document.title=isKorean?'김민지 | 데이터 엔지니어 · MLOps 엔지니어':'Khloe Minji Kim';
+    document.querySelector('meta[name="description"]').setAttribute('content',isKorean?'김민지 데이터 엔지니어 및 MLOps 엔지니어 포트폴리오. 제조 AI, RAG 에이전트, 데이터 분석 자동화 프로젝트를 소개합니다.':'Khloe Kim. Data engineer and MLOps engineer building prediction pipelines, RAG agents, and analytics automation across manufacturing, legal-tech, and embedded AI.');
+    languageContent.forEach(([selector,en,ko])=>{
+      const element=document.querySelector(selector);
+      if(element) element.innerHTML=isKorean?ko:en;
+    });
+    languageAttributes.forEach(([selector,attribute,en,ko])=>{
+      const element=document.querySelector(selector);
+      if(element) element.setAttribute(attribute,isKorean?ko:en);
+    });
+    languageSwitch.classList.toggle('is-korean',isKorean);
+    languageSwitch.setAttribute('aria-checked',String(isKorean));
+    languageSwitch.setAttribute('aria-label',isKorean?'영어로 전환':'Switch to Korean');
+    try{localStorage.setItem('portfolio-language',language)}catch(error){}
+  }
+
+  let savedLanguage='en';
+  try{savedLanguage=localStorage.getItem('portfolio-language')||'en'}catch(error){}
+  applyLanguage(savedLanguage==='ko'?'ko':'en');
+  languageSwitch.addEventListener('click',()=>applyLanguage(languageSwitch.getAttribute('aria-checked')==='true'?'en':'ko'));
+
   function fallbackCopyText(text){
     const textarea=document.createElement('textarea');
     textarea.value=text;
@@ -1282,9 +1525,9 @@
       const email=link.dataset.copyEmail||contactEmail;
       try{
         await copyText(email);
-        showCopyToast(`${email} copied to clipboard`);
+        showCopyToast(document.documentElement.lang==='ko'?`${email} 주소를 복사했습니다`:`${email} copied to clipboard`);
       }catch(error){
-        showCopyToast(`Failed to copy ${email}`);
+        showCopyToast(document.documentElement.lang==='ko'?`${email} 주소를 복사하지 못했습니다`:`Failed to copy ${email}`);
       }
     });
   });
