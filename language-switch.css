@@ -1,0 +1,95 @@
+@import url('https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css');
+
+@font-face{
+  font-family:'Aggravo';
+  src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroL.woff') format('woff');
+  font-weight:300;
+  font-display:swap;
+}
+@font-face{
+  font-family:'Aggravo';
+  src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroM.woff') format('woff');
+  font-weight:500;
+  font-display:swap;
+}
+@font-face{
+  font-family:'Aggravo';
+  src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
+  font-weight:700;
+  font-display:swap;
+}
+
+nav .nav-inner{position:relative}
+.site-language-switch{
+  display:inline-flex;align-items:center;flex:0 0 auto;
+  padding:0;border:0;border-radius:999px;background:transparent;
+  cursor:pointer;box-shadow:0 1px 2px rgba(17,24,68,.04),0 1px 3px rgba(17,24,68,.06);
+  transition:box-shadow .25s ease,transform .25s ease;
+}
+.site-language-switch:hover{
+  box-shadow:0 4px 16px rgba(17,24,68,.08),0 2px 6px rgba(17,24,68,.04);
+  transform:translateY(-1px);
+}
+.site-language-switch:focus-visible{outline:2px solid #4b5694;outline-offset:3px}
+.site-language-track{
+  position:relative;display:block;width:66px;height:34px;
+  border-radius:999px;background:#111844;overflow:hidden;
+}
+.site-language-option{
+  position:absolute;top:50%;z-index:1;transform:translateY(-50%);
+  width:30px;text-align:center;color:#fff;
+  font-family:'Wanted Sans Variable','Wanted Sans',sans-serif;
+  font-size:.68rem;font-weight:600;letter-spacing:.03em;
+  transition:opacity .2s ease;
+}
+.site-language-option-kr{left:2px;opacity:0}
+.site-language-option-en{right:2px;opacity:1}
+.site-language-switch.is-korean .site-language-option-kr{opacity:1}
+.site-language-switch.is-korean .site-language-option-en{opacity:0}
+.site-language-thumb{
+  position:absolute;top:3px;left:3px;z-index:2;width:28px;height:28px;
+  border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(17,24,68,.18);
+  transition:transform .25s cubic-bezier(.4,0,.2,1);
+}
+.site-language-switch.is-korean .site-language-thumb{transform:translateX(32px)}
+
+html[lang="ko"] body,
+html[lang="ko"] body *{
+  font-family:'Wanted Sans Variable','Wanted Sans','Pretendard',-apple-system,sans-serif;
+  word-break:keep-all;
+}
+html[lang="ko"] h1,
+html[lang="ko"] h2,
+html[lang="ko"] h3,
+html[lang="ko"] h4,
+html[lang="ko"] h5,
+html[lang="ko"] h6,
+html[lang="ko"] h1 *,
+html[lang="ko"] h2 *,
+html[lang="ko"] h3 *,
+html[lang="ko"] h4 *,
+html[lang="ko"] h5 *,
+html[lang="ko"] h6 *{
+  font-family:'Aggravo','Wanted Sans Variable','Wanted Sans',sans-serif;
+}
+html[lang="ko"] h1,
+html[lang="ko"] h2,
+html[lang="ko"] h3,
+html[lang="ko"] h4,
+html[lang="ko"] h5,
+html[lang="ko"] h6{font-weight:500}
+html[lang="ko"] strong,
+html[lang="ko"] b,
+html[lang="ko"] .impact{
+  font-family:'Aggravo','Wanted Sans Variable','Wanted Sans',sans-serif;
+  font-weight:700;
+}
+html[lang="ko"] .brand{
+  font-family:'Aggravo','Wanted Sans Variable','Wanted Sans',sans-serif;
+  font-weight:500;
+}
+
+@media (max-width:860px){
+  .site-language-switch{position:absolute;top:14px;right:24px}
+  nav .nav-inner{padding-right:104px}
+}
